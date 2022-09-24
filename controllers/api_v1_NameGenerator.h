@@ -19,12 +19,17 @@ namespace v1
  */
 class NameGenerator: public drogon::HttpController<NameGenerator>
 {
+private:
+    std::vector<std::string> _firstNames;
+    std::vector<std::string> _lastNames;
+
   public:
+
     METHOD_LIST_BEGIN
     // use METHOD_ADD to add your custom processing function here;
     METHOD_ADD(NameGenerator::getOne,"/{1}",Get,Options);
     METHOD_ADD(NameGenerator::get,"",Get,Options);
-    METHOD_ADD(NameGenerator::create,"",Post,Options);
+    METHOD_ADD(NameGenerator::create,"/{1}/{2}",Post,Options);
     METHOD_ADD(NameGenerator::updateOne,"/{1}",Put,Options);
     //METHOD_ADD(NameGenerator::update,"",Put,Options);
     METHOD_ADD(NameGenerator::deleteOne,"/{1}",Delete,Options);
@@ -45,11 +50,27 @@ class NameGenerator: public drogon::HttpController<NameGenerator>
     void get(const HttpRequestPtr &req,
              std::function<void(const HttpResponsePtr &)> &&callback);
     void create(const HttpRequestPtr &req,
-                std::function<void(const HttpResponsePtr &)> &&callback);
+                std::function<void(const HttpResponsePtr &)> &&callback,
+                std::string &&nameType,
+                std::string &&name);
 
+    std::string AssembleName();
+    void AddFirstName(std::string name);
+    void AddLastName(std::string name);
 //    void update(const HttpRequestPtr &req,
 //                std::function<void(const HttpResponsePtr &)> &&callback);
 
+};
+
+class NameStore {
+private:
+    std::vector<std::string> _firstNames;
+    std::vector<std::string> _lastNames;
+public:
+
+    std::string AssembleName();
+    void AddFirstName(std::string name);
+    void AddLastName(std::string name);
 };
 }
 }

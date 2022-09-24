@@ -10,6 +10,8 @@ int main()
 {
 	LOG_INFO << "Configuring server";
 
+	srand((unsigned)time(NULL));
+
 	LOG_INFO << "Attempting to load config file...";
 	try
 	{
